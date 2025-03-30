@@ -7,6 +7,12 @@ name = "pypi"
 yfinance = "*"
 pandas = "*"
 lxml = "*"
+flask = "*"
+flask-wtf = "*"
+flask-bootstrap = "*"
+requests = "*"
+beautifulsoup4 = "*"
+python-dotenv = "*"
 
 [dev-packages]
 ipykernel = "*"
