@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}フィルタリング | IPO銘柄選定システム{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-filter"></i> フィルタリング設定</h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">IPO銘柄のフィルタリング条件を設定してください。</p>
+                
+                <form action="{{ url_for('main.filter_data') }}" method="post">
+                    <div class="mb-4">
+                        <h5><i class="fas fa-chart-line text-primary"></i> 成長性</h5>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="growth_flag" name="growth_flag" checked>
+                            <label class="form-check-label" for="growth_flag">
+                                過去3年間の売上高と営業利益が継続的に成長している銘柄のみを表示
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5><i class="fas fa-money-bill-wave text-success"></i> PER（株価収益率）</h5>
+                        <div class="mb-3">
+                            <label for="per_max" class="form-label">最大PER値</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="per_max" name="per_max" value="15" min="0" step="0.1">
+                                <span class="input-group-text">倍以下</span>
+                            </div>
+                            <div class="form-text">空白の場合、PERによるフィルタリングは行いません。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5><i class="fas fa-hand-holding-usd text-warning"></i> 配当利回り</h5>
+                        <div class="mb-3">
+                            <label for="dividend_yield_min" class="form-label">最小配当利回り</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="dividend_yield_min" name="dividend_yield_min" value="3" min="0" step="0.1">
+                                <span class="input-group-text">%以上</span>
+                            </div>
+                            <div class="form-text">空白の場合、配当利回りによるフィルタリングは行いません。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-search"></i> フィルタリング実行
+                        </button>
+                        <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> ホームに戻る
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                <small><i class="fas fa-info-circle"></i> フィルタリング条件を変更することで、異なる投資戦略に基づいた銘柄を選定できます。</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

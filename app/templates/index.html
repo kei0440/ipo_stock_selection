@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}ホーム | IPO銘柄選定システム{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="text-center mb-5">
+            <i class="fas fa-chart-line fa-5x text-primary mb-4"></i>
+            <h1 class="display-4">IPO銘柄選定システム</h1>
+            <p class="lead">日本の新規株式公開（IPO）銘柄から投資価値の高い銘柄を自動的に選定するシステムです。</p>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">成長性</h5>
+                        <p class="card-text">過去3年間の売上高と営業利益が継続的に成長している銘柄を選定します。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-money-bill-wave fa-3x text-success mb-3"></i>
+                        <h5 class="card-title">PER（株価収益率）</h5>
+                        <p class="card-text">PERが15以下の割安な銘柄を選定します。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-hand-holding-usd fa-3x text-warning mb-3"></i>
+                        <h5 class="card-title">配当利回り</h5>
+                        <p class="card-text">配当利回りが3%以上の高配当銘柄を選定します。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="fas fa-database"></i> データ取得</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>以下のソースからIPO銘柄のデータを取得します：</p>
+                        <ul>
+                            <li>JPX（日本取引所グループ）- 最新のIPO情報</li>
+                            <li>Yahoo Finance Japan - 株価情報</li>
+                            <li>IRBank - 企業の財務パフォーマンスデータ</li>
+                        </ul>
+                        <form action="{{ url_for('main.fetch_data') }}" method="post" class="mt-4">
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="force_scrape" name="force_scrape" value="true">
+                                <label class="form-check-label" for="force_scrape">
+                                    強制的に全データを再取得する（通常は30日以内に更新されたデータはスキップされます）
+                                </label>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-sync-alt"></i> データ取得開始
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <small><i class="fas fa-info-circle"></i> データ取得には数分かかる場合があります。</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <a href="{{ url_for('main.filter_data') }}" class="btn btn-outline-primary btn-lg me-3">
+                    <i class="fas fa-filter"></i> フィルタリング設定へ
+                </a>
+                <a href="{{ url_for('main.results') }}" class="btn btn-outline-success btn-lg">
+                    <i class="fas fa-table"></i> 最新の結果を表示
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

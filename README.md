@@ -19,6 +19,7 @@
 - IRBankから企業の財務パフォーマンスデータを取得
 - 設定した条件に基づいて投資価値の高い銘柄を自動選定
 - 結果をCSVファイルとして出力
+- Webインターフェースでの操作が可能
 
 ## 🔧 インストール方法
 
@@ -44,6 +45,8 @@ pipenv install
 
 ## 📋 使用方法
 
+### コマンドラインインターフェース
+
 1. 仮想環境を有効化：
 
 ```bash
@@ -60,19 +63,63 @@ python main_script.py
    - `ipo_list.csv`: フィルタリング前の全IPOデータ
    - `filtered_ipo_list_YYYYMMDD.csv`: フィルタリング後の投資候補銘柄（日付付き）
 
+### Webインターフェース
+
+1. 仮想環境を有効化：
+
+```bash
+pipenv shell
+```
+
+2. Flaskアプリケーションを実行：
+
+```bash
+python run.py
+```
+
+3. ブラウザで以下のURLにアクセス：
+
+```
+http://127.0.0.1:5000/
+```
+
+4. Webインターフェースの使用方法：
+   - **ホーム画面**: データ取得ボタンでIPO情報を取得
+   - **フィルタリング画面**: 条件を設定してIPO銘柄をフィルタリング
+   - **結果画面**: フィルタリング結果の表示とCSVダウンロード
+   - **概要画面**: プロジェクトの説明
+
 ## 🗂️ プロジェクト構造
 
 ```
 ipo_stock_selection/
+├── app/                     # Flaskアプリケーション
+│   ├── __init__.py          # アプリケーション初期化
+│   ├── routes.py            # ルート定義
+│   ├── utils/               # ユーティリティ関数
+│   │   ├── __init__.py
+│   │   ├── jpx_scraper.py   # JPXスクレイパー
+│   │   ├── yahoo_finance_scraper.py # Yahoo Financeスクレイパー
+│   │   ├── irbank_scraper.py # IRBankスクレイパー
+│   │   └── filter_ipo_data.py # データフィルタリングロジック
+│   ├── static/              # 静的ファイル
+│   │   ├── css/             # CSSファイル
+│   │   ├── js/              # JavaScriptファイル
+│   │   └── images/          # 画像ファイル
+│   └── templates/           # HTMLテンプレート
+│       ├── base.html        # ベーステンプレート
+│       ├── index.html       # ホームページ
+│       ├── filter.html      # フィルタリングページ
+│       ├── results.html     # 結果表示ページ
+│       └── about.html       # プロジェクト説明ページ
 ├── assets/                  # プロジェクトアセット
 │   └── header.svg           # READMEヘッダー画像
-├── main_script.py           # メインスクリプト
-├── jpx_scraper.py           # JPXからIPOデータを取得するスクレイパー
-├── yahoo_finance_scraper.py # Yahoo Financeから株価データを取得するスクレイパー
-├── irbank_scraper.py        # IRBankから財務データを取得するスクレイパー
-├── filter_ipo_data.py       # データフィルタリングロジック
-├── ipo_list.csv             # フィルタリング前のIPOデータ
-├── filtered_ipo_list_*.csv  # フィルタリング後の投資候補銘柄
+├── data/                    # データ保存ディレクトリ
+│   ├── ipo_list.csv         # フィルタリング前のIPOデータ
+│   └── filtered_ipo_list_*.csv # フィルタリング後の投資候補銘柄
+├── main_script.py           # CLIメインスクリプト
+├── run.py                   # Flaskアプリケーション実行スクリプト
+├── config.py                # 設定ファイル
 ├── Pipfile                  # 依存関係定義
 └── Pipfile.lock             # 依存関係のロックファイル
 ```
@@ -84,10 +131,13 @@ ipo_stock_selection/
 - BeautifulSoup4: HTMLパース
 - lxml: XMLおよびHTMLの処理
 - yfinance: Yahoo Financeデータ取得
+- Flask: Webアプリケーションフレームワーク
+- Flask-WTF: フォーム処理
+- Flask-Bootstrap: レスポンシブデザイン
 
 ## 🔄 更新頻度
 
-このスクリプトは定期的に実行することで、最新のIPO情報を取得し、投資候補を更新することができます。データは30日以内に更新された場合はスキップされるため、月に1回程度の実行が推奨されます。
+このシステムは定期的に実行することで、最新のIPO情報を取得し、投資候補を更新することができます。データは30日以内に更新された場合はスキップされるため、月に1回程度の実行が推奨されます。
 
 ## 📜 ライセンス
 
